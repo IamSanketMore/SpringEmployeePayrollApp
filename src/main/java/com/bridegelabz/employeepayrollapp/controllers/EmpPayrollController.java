@@ -49,11 +49,11 @@ public class EmpPayrollController
     }
 
     //curl  -X PUT -H "Content-Type:application/json" -d "{\"name\": \"Sanket More\",\"salary\":300000 }" http://localhost:8080/employeePayrollService/update
-    @PutMapping("/update")
-    public ResponseEntity<ResponseDTO> updateEmployeePayrollData( @RequestBody EmployeePayrollDTO employeePayrollDTO)
+    @PutMapping("/update/{empId}")
+    public ResponseEntity<ResponseDTO> updateEmployeePayrollData( @PathVariable("empId") int empId,@RequestBody EmployeePayrollDTO employeePayrollDTO)
     {
         EmployeePayrollData empData = null;
-        empData = employeePayrollService.updateEmployeePayrollData(employeePayrollDTO);
+        empData = employeePayrollService.updateEmployeePayrollData(empId,employeePayrollDTO);
         ResponseDTO responseDTO = new ResponseDTO("Update Employee Payroll Data Successfully", empData);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
