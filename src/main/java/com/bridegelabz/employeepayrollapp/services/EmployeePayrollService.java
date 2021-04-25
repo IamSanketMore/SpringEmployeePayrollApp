@@ -2,6 +2,7 @@ package com.bridegelabz.employeepayrollapp.services;
 
 import com.bridegelabz.employeepayrollapp.DTO.EmployeePayrollDTO;
 import com.bridegelabz.employeepayrollapp.DTO.ResponseDTO;
+import com.bridegelabz.employeepayrollapp.exceptions.EmployeeePayrollException;
 import com.bridegelabz.employeepayrollapp.model.EmployeePayrollData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,10 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 
     @Override
     public EmployeePayrollData getEmployeePayrollDataById(int empId) {
-        return employeePayrollList.get(empId - 1);
+        return employeePayrollList.stream()
+                .filter(empData -> empData.getEmployeeId() == empId)
+                .findFirst()
+                .orElseThrow(() ->new EmployeeePayrollException("Employee Not Found"));
     }
 
     @Override
