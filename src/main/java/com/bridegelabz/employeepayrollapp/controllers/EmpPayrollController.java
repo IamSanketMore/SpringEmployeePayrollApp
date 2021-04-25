@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class EmpPayrollController
 
     //curl  -X POST -H "Content-Type:application/json" -d "{\"name\": \"Sanket More\",\"salary\":200000 }" http://localhost:8080/employeePayrollService/create
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> addEmployeePayrollData( @RequestBody EmployeePayrollDTO employeePayrollDTO)
+    public ResponseEntity<ResponseDTO> addEmployeePayrollData( @Valid @RequestBody EmployeePayrollDTO employeePayrollDTO)
     {
         EmployeePayrollData empData = null;
         empData = employeePayrollService.createEmployeePayrollData(employeePayrollDTO);
@@ -50,7 +51,8 @@ public class EmpPayrollController
 
     //curl  -X PUT -H "Content-Type:application/json" -d "{\"name\": \"Sanket More\",\"salary\":300000 }" http://localhost:8080/employeePayrollService/update
     @PutMapping("/update/{empId}")
-    public ResponseEntity<ResponseDTO> updateEmployeePayrollData( @PathVariable("empId") int empId,@RequestBody EmployeePayrollDTO employeePayrollDTO)
+    public ResponseEntity<ResponseDTO> updateEmployeePayrollData( @PathVariable("empId") int empId,
+                                                                  @Valid @RequestBody EmployeePayrollDTO employeePayrollDTO)
     {
         EmployeePayrollData empData = null;
         empData = employeePayrollService.updateEmployeePayrollData(empId,employeePayrollDTO);
