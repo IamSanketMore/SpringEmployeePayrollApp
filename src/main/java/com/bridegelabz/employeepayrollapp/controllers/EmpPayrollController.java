@@ -41,6 +41,15 @@ public class EmpPayrollController
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/department/{department}")
+    public ResponseEntity<ResponseDTO> getEmployeesByDepartment(@PathVariable("department") String department)
+    {
+        List<EmployeePayrollData> empDataList = null;
+        empDataList = employeePayrollService.getEmployeesByDepartment(department);
+        ResponseDTO responseDTO = new ResponseDTO("Get Call For Id Successful", empDataList);
+        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+    }
+
     //curl  -X POST -H "Content-Type:application/json" -d "{\"name\": \"Sanket More\",\"salary\":200000 }" http://localhost:8080/employeePayrollService/create
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> addEmployeePayrollData( @Valid @RequestBody EmployeePayrollDTO employeePayrollDTO)
