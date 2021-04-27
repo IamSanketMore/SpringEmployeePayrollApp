@@ -4,6 +4,9 @@ import com.bridegelabz.employeepayrollapp.DTO.EmployeePayrollDTO;
 import com.bridegelabz.employeepayrollapp.DTO.ResponseDTO;
 import com.bridegelabz.employeepayrollapp.exceptions.EmployeeePayrollException;
 import com.bridegelabz.employeepayrollapp.model.EmployeePayrollData;
+import com.bridegelabz.employeepayrollapp.respository.EmployeePayrollRespository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,7 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class EmployeePayrollService implements IEmployeePayrollService {
+
+    @Autowired
+    private EmployeePayrollRespository employeePayrollRespository;
 
     private List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
 
@@ -32,9 +39,10 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     @Override
     public EmployeePayrollData createEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO) {
         EmployeePayrollData empData = null;
-        empData = new EmployeePayrollData(employeePayrollList.size() + 1, employeePayrollDTO);
+        empData = new EmployeePayrollData( employeePayrollDTO);
         employeePayrollList.add(empData);
-        return empData;
+        log.debug("Emp Data: " +empData.toString());
+        return employeePayrollRespository.save(empData);
     }
 
     @Override
